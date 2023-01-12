@@ -16,7 +16,8 @@ add_executable(bot tgbot.cpp)
 
 target_link_libraries(bot leaderboard image_storage ${VCPKG_INSTALLED_DIR}/x64-windows/lib/TgBot.lib ${CMAKE_THREAD_LIBS_INIT} ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES})
 
-install(DIRECTORY ${VCPKG_INSTALLED_DIR}/x64-windows/bin DESTINATION tgbot)
-install(TARGETS bot DESTINATION tgbot/bin)
+#install(DIRECTORY ${VCPKG_INSTALLED_DIR}/x64-windows/bin DESTINATION tgbot)
+#install(TARGETS bot DESTINATION tgbot/bin)
+install(DIRECTORY ${tgbot_BINARY_DIR}/Release/ DESTINATION tgbot/bin)
 install(TARGETS image_storage leaderboard DESTINATION tgbot/lib)
 install(DIRECTORY DESTINATION tgbot/images)
