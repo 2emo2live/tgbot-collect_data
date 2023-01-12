@@ -21,3 +21,4 @@ target_link_libraries(bot leaderboard image_storage ${VCPKG_INSTALLED_DIR}/x64-w
 install(DIRECTORY ${tgbot_BINARY_DIR}/Release/ DESTINATION tgbot/bin)
 install(TARGETS image_storage leaderboard DESTINATION tgbot/lib)
 install(DIRECTORY DESTINATION tgbot/images)
+install(DIRECTORY ${tgbot_SOURCE_DIR}/examples DESTINATION tgbot)
