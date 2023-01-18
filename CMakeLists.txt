@@ -2,8 +2,19 @@ cmake_minimum_required(VERSION 3.11)
 
 project(tgbot)
 
-#set(Boost_INCLUDE_DIR ${VCPKG_INSTALLED_DIR}/x64-windows/include)
-#set(OPENSSL_INCLUDE_DIR ${VCPKG_INSTALLED_DIR}/x64-windows/include)
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+	set(doxyfile_in ${CMAKE_SOURCE_DIR})
+
+	configure_file(Doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+	add_custom_target(docs 
+	${DOXYGEN_EXECUTABLE}
+	${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+	COMMENT "Generating API documentation with Doxygen"
+	VERBATIM
+	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+endif()
 
 find_package(Threads REQUIRED)
 find_package(Boost REQUIRED)
