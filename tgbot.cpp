@@ -20,21 +20,21 @@ int main() {
 
     TgBot::Bot bot(token);
     bot.getEvents().onCommand("start", [&bot](TgBot::Message::Ptr message) {
-        bot.getApi().sendMessage(message->chat->id, u8"œË‚ÂÚ! ﬂ ·ÓÚ ‰Îˇ Ò·Ó‡ ‰‡Ú‡ÒÂÚ‡.\n◊ÚÓ·˚ ÓÚÔ‡‚ËÚ¸ ÏÌÂ ÙÓÚÓ„‡ÙËË, ËÒÔÓÎ¸ÁÛÈÚÂ ÍÓÏ‡Ì‰Û '/photo'.\n◊ÚÓ·˚ Û‚Ë‰ÂÚ¸ Ú‡·ÎËˆÛ ÎË‰ÂÓ‚, ËÒÔÓÎ¸ÁÛÈÚÂ ÍÓÏ‡Ì‰Û '/top'");
+        bot.getApi().sendMessage(message->chat->id, u8"–ü—Ä–∏–≤–µ—Ç! –Ø –±–æ—Ç –¥–ª—è —Å–±–æ—Ä–∞ –¥–∞—Ç–∞—Å–µ—Ç–∞.\n–ß—Ç–æ–±—ã –æ—Ç–ø—Ä–∞–≤–∏—Ç—å –º–Ω–µ —Ñ–æ—Ç–æ–≥—Ä–∞—Ñ–∏–∏, –∏—Å–ø–æ–ª—å–∑—É–π—Ç–µ –∫–æ–º–∞–Ω–¥—É '/photo'.\n–ß—Ç–æ–±—ã —É–≤–∏–¥–µ—Ç—å —Ç–∞–±–ª–∏—Ü—É –ª–∏–¥–µ—Ä–æ–≤, –∏—Å–ø–æ–ª—å–∑—É–π—Ç–µ –∫–æ–º–∞–Ω–¥—É '/top'");
         std::cout << (message->from->username != "" ? message->from->username : std::to_string(message->from->id)) << '\n';
     });
     bot.getEvents().onCommand("photo", [&bot, &photo_ch](TgBot::Message::Ptr message) {
-        bot.getApi().sendMessage(message->chat->id, u8"œËÒ˚Î‡ÈÚÂ ÙÓÚÓ„‡ÙËË (Ù‡ÈÎ‡ÏË, ÌÂ ÔËÍÂÔÎ∏ÌÌ˚ÏË ËÁÓ·‡ÊÂÌËˇÏË). –‡ÌÂÂ ÓÚÔ‡‚ÎÂÌÌ˚Â ÙÓÚÓ ÌÂ ·Û‰ÛÚ Û˜ËÚ˚‚‡Ú¸Òˇ. œÓÒÎÂ ÓÚÔ‡‚ÍË ÙÓÚÓ„‡ÙËÈ ËÒÔÓÎ¸ÁÛÈÚÂ ÍÓÏ‡Ì‰Û '/end'");
+        bot.getApi().sendMessage(message->chat->id, u8"–ü—Ä–∏—Å—ã–ª–∞–π—Ç–µ —Ñ–æ—Ç–æ–≥—Ä–∞—Ñ–∏–∏ (—Ñ–∞–π–ª–∞–º–∏, –Ω–µ –ø—Ä–∏–∫—Ä–µ–ø–ª—ë–Ω–Ω—ã–º–∏ –∏–∑–æ–±—Ä–∞–∂–µ–Ω–∏—è–º–∏). –†–∞–Ω–µ–µ –æ—Ç–ø—Ä–∞–≤–ª–µ–Ω–Ω—ã–µ —Ñ–æ—Ç–æ –Ω–µ –±—É–¥—É—Ç —É—á–∏—Ç—ã–≤–∞—Ç—å—Å—è. –ü–æ—Å–ª–µ –æ—Ç–ø—Ä–∞–≤–∫–∏ —Ñ–æ—Ç–æ–≥—Ä–∞—Ñ–∏–π –∏—Å–ø–æ–ª—å–∑—É–π—Ç–µ –∫–æ–º–∞–Ω–¥—É '/end'");
         photo_ch = true;
     });
     bot.getEvents().onCommand("top", [&bot, &lead_ch](TgBot::Message::Ptr message) {
-        bot.getApi().sendMessage(message->chat->id, u8"¬˚·ÂËÚÂ ‚ÂÏÂÌÌÓÈ ÔÓÏÂÊÛÚÓÍ (Ë ÓÚÔ‡‚¸ÚÂ ÒÓÓÚ‚ÂÚÒÚ‚Û˛˘ËÈ ÌÓÏÂ):\n1) ‰ÂÌ¸\n2) ÌÂ‰ÂÎˇ\n3) ‚Ò∏ ‚ÂÏˇ");
+        bot.getApi().sendMessage(message->chat->id, u8"–í—ã–±–µ—Ä–∏—Ç–µ –≤—Ä–µ–º–µ–Ω–Ω–æ–π –ø—Ä–æ–º–µ–∂—É—Ç–æ–∫ (–∏ –æ—Ç–ø—Ä–∞–≤—å—Ç–µ —Å–æ–æ—Ç–≤–µ—Ç—Å—Ç–≤—É—é—â–∏–π –Ω–æ–º–µ—Ä):\n1) –¥–µ–Ω—å\n2) –Ω–µ–¥–µ–ª—è\n3) –≤—Å—ë –≤—Ä–µ–º—è");
         lead_ch = 1;
     });
     bot.getEvents().onAnyMessage([&photo_num, &bot, &img_st, &photo_ch, &lead, &lead_ch, &type, &commands](TgBot::Message::Ptr message) {
         if (photo_ch) {
             if (message->text == "/end") {
-                bot.getApi().sendMessage(message->chat->id, u8"‘ÓÚÓ„‡ÙËÈ ÔËÌˇÚÓ: " + std::to_string(photo_num));
+                bot.getApi().sendMessage(message->chat->id, u8"–§–æ—Ç–æ–≥—Ä–∞—Ñ–∏–π –ø—Ä–∏–Ω—è—Ç–æ: " + std::to_string(photo_num));
                 lead.update((message->from->username != "" ? message->from->username : std::to_string(message->from->id)), photo_num);
                 photo_ch = false;
                 photo_num = 0;
@@ -44,7 +44,7 @@ int main() {
                     auto mess = message->document;
                     if (!mess)
                         throw std::invalid_argument("");
-                    std::cout << message->document->fileId << '\n';
+//                    std::cout << message->document->fileId << '\n';
                     auto photo = bot.getApi().getFile(message->document->fileId);
                     std::string f_str = bot.getApi().downloadFile(photo->filePath);
                     int res = img_st.add((message->from->username!="" ? message->from->username : std::to_string(message->from->id)), f_str);
@@ -52,7 +52,7 @@ int main() {
                         photo_num++;
                 }
                 catch (...) {
-                    bot.getApi().sendMessage(message->chat->id, u8"œÓËÁÓ¯Î‡ Ó¯Ë·Í‡. ‘ÓÚÓ„‡ÙËÈ ÔËÌˇÚÓ: " + std::to_string(photo_num));
+                    bot.getApi().sendMessage(message->chat->id, u8"–ü—Ä–æ–∏–∑–æ—à–ª–∞ –æ—à–∏–±–∫–∞. –§–æ—Ç–æ–≥—Ä–∞—Ñ–∏–π –ø—Ä–∏–Ω—è—Ç–æ: " + std::to_string(photo_num));
                     photo_ch = false;
                     photo_num = 0;
                 }
@@ -61,12 +61,12 @@ int main() {
         else if (lead_ch == 1) {
             try {
                 type = std::stoi(message->text);
-                bot.getApi().sendMessage(message->chat->id, u8"¬˚·ÂËÚÂ ÍÓÎË˜ÂÒÚ‚Ó ÏÂÒÚ");
+                bot.getApi().sendMessage(message->chat->id, u8"–í—ã–±–µ—Ä–∏—Ç–µ –∫–æ–ª–∏—á–µ—Å—Ç–≤–æ –º–µ—Å—Ç");
                 lead_ch = 2;
                 return;
             }
             catch (...) {
-                bot.getApi().sendMessage(message->chat->id, u8"œÓËÁÓ¯Î‡ Ó¯Ë·Í‡. œÓ‚ÚÓËÚÂ ÍÓÏ‡Ì‰Û");
+                bot.getApi().sendMessage(message->chat->id, u8"–ü—Ä–æ–∏–∑–æ—à–ª–∞ –æ—à–∏–±–∫–∞. –ü–æ–≤—Ç–æ—Ä–∏—Ç–µ –∫–æ–º–∞–Ω–¥—É");
                 lead_ch = false;
             }
         }
@@ -75,7 +75,7 @@ int main() {
                 int num = std::stoi(message->text);
                 std::vector<std::pair<std::string, int>> list;
                 lead.top(num, list, type);
-                std::string list_s = u8" ÓÎË˜ÂÒÚ‚Ó ÓÚÔ‡‚ÎÂÌÌ˚ı ÙÓÚÓ„‡ÙËÈ: \n";
+                std::string list_s = u8"–ö–æ–ª–∏—á–µ—Å—Ç–≤–æ –æ—Ç–ø—Ä–∞–≤–ª–µ–Ω–Ω—ã—Ö —Ñ–æ—Ç–æ–≥—Ä–∞—Ñ–∏–π: \n";
                 for (auto k : list) {
                     list_s += k.first + u8": " + std::to_string(k.second) + "\n";
                 }
@@ -83,7 +83,7 @@ int main() {
                 lead_ch = false;
             }
             catch (...) {
-                bot.getApi().sendMessage(message->chat->id, u8"œÓËÁÓ¯Î‡ Ó¯Ë·Í‡. œÓ‚ÚÓËÚÂ ÍÓÏ‡Ì‰Û");
+                bot.getApi().sendMessage(message->chat->id, u8"–ü—Ä–æ–∏–∑–æ—à–ª–∞ –æ—à–∏–±–∫–∞. –ü–æ–≤—Ç–æ—Ä–∏—Ç–µ –∫–æ–º–∞–Ω–¥—É");
                 lead_ch = false;
             }
         }
@@ -91,7 +91,7 @@ int main() {
             for (auto i : commands)
                 if (i == message->text)
                     return;
-            bot.getApi().sendMessage(message->chat->id, u8"ÕÂËÁ‚ÂÒÚÌ‡ˇ ÍÓÏ‡Ì‰‡");
+            bot.getApi().sendMessage(message->chat->id, u8"–ù–µ–∏–∑–≤–µ—Å—Ç–Ω–∞—è –∫–æ–º–∞–Ω–¥–∞");
         }
     });
 
