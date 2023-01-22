@@ -24,7 +24,6 @@ void Leaderboard::top(int lim, std::vector<std::pair<std::string, int>>& vec, in
 			int score = 0;
 			for (auto j : i.submits) {
 				time_t diff = (now - j) / 86400;
-				//TODO: проверить, нужно ли округление
 				if (diff <= border)
 					score++;
 			}
