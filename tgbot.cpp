@@ -8,6 +8,8 @@
 #include <tgbot/tgbot.h>
 #include <fstream>
 
+#include <locale>
+
 int main() {
     std::string token("5983544311:AAH04sQSLZqmkLBOLY4iHuP8Xu1kW1pngi8");
     bool photo_ch = false;
@@ -22,6 +24,7 @@ int main() {
     bot.getEvents().onCommand("start", [&bot](TgBot::Message::Ptr message) {
         bot.getApi().sendMessage(message->chat->id, "Привет! Я бот для сбора датасета.\nЧтобы отправить мне фотографии, используйте команду '/photo'.\nЧтобы увидеть таблицу лидеров, используйте команду '/top'");
         std::cout << (message->from->username != "" ? message->from->username : std::to_string(message->from->id)) << '\n';
+//        std::cout << "Привет! Я бот для сбора датасета.\nЧтобы отправить мне фотографии, используйте команду '/photo'.\nЧтобы увидеть таблицу лидеров, используйте команду '/top'" << '\n';
     });
     bot.getEvents().onCommand("photo", [&bot, &photo_ch](TgBot::Message::Ptr message) {
         bot.getApi().sendMessage(message->chat->id, "Присылайте фотографии (файлами, не прикреплёнными изображениями). Ранее отправленные фото не будут учитываться. После отправки фотографий используйте команду '/end'");
