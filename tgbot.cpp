@@ -8,8 +8,6 @@
 #include <tgbot/tgbot.h>
 #include <fstream>
 
-#include <locale>
-
 int main() {
     std::string token("5983544311:AAH04sQSLZqmkLBOLY4iHuP8Xu1kW1pngi8");
     bool photo_ch = false;
@@ -20,24 +18,38 @@ int main() {
     Leaderboard lead;
     std::vector<std::string> commands {"/start", "/photo", "/top"};
 
+    std::vector<std::string> ans(9, "");
+    for (int i = 1; i <= 9; i++) {
+        std::ifstream in("../message_text/" + std::to_string(i) + ".txt", std::ios::binary);
+        while (in) {
+            std::string s;
+            getline(in, s);
+            if ((i == 4) || (i == 5) || (i == 8))
+                ans[i - 1] += s;
+            else
+                ans[i - 1] += s + '\n';
+        }
+        in.close();
+    }
+
     TgBot::Bot bot(token);
-    bot.getEvents().onCommand("start", [&bot](TgBot::Message::Ptr message) {
-        bot.getApi().sendMessage(message->chat->id, "Привет! Я бот для сбора датасета.\nЧтобы отправить мне фотографии, используйте команду '/photo'.\nЧтобы увидеть таблицу лидеров, используйте команду '/top'");
+    bot.getEvents().onCommand("start", [&bot, &ans](TgBot::Message::Ptr message) {
+        bot.getApi().sendMessage(message->chat->id, ans[0]);
         std::cout << (message->from->username != "" ? message->from->username : std::to_string(message->from->id)) << '\n';
 //        std::cout << "Привет! Я бот для сбора датасета.\nЧтобы отправить мне фотографии, используйте команду '/photo'.\nЧтобы увидеть таблицу лидеров, используйте команду '/top'" << '\n';
     });
-    bot.getEvents().onCommand("photo", [&bot, &photo_ch](TgBot::Message::Ptr message) {
-        bot.getApi().sendMessage(message->chat->id, "Присылайте фотографии (файлами, не прикреплёнными изображениями). Ранее отправленные фото не будут учитываться. После отправки фотографий используйте команду '/end'");
+    bot.getEvents().onCommand("photo", [&bot, &photo_ch, &ans](TgBot::Message::Ptr message) {
+        bot.getApi().sendMessage(message->chat->id, ans[1]);
         photo_ch = true;
     });
-    bot.getEvents().onCommand("top", [&bot, &lead_ch](TgBot::Message::Ptr message) {
-        bot.getApi().sendMessage(message->chat->id, "Выберите временной промежуток (и отправьте соответствующий номер):\n1) день\n2) неделя\n3) всё время");
+    bot.getEvents().onCommand("top", [&bot, &lead_ch, &ans](TgBot::Message::Ptr message) {
+        bot.getApi().sendMessage(message->chat->id, ans[2]);
         lead_ch = 1;
     });
-    bot.getEvents().onAnyMessage([&photo_num, &bot, &img_st, &photo_ch, &lead, &lead_ch, &type, &commands](TgBot::Message::Ptr message) {
+    bot.getEvents().onAnyMessage([&photo_num, &bot, &img_st, &photo_ch, &lead, &lead_ch, &type, &commands, &ans](TgBot::Message::Ptr message) {
         if (photo_ch) {
             if (message->text == "/end") {
-                bot.getApi().sendMessage(message->chat->id, "Фотографий принято: " + std::to_string(photo_num));
+                bot.getApi().sendMessage(message->chat->id, ans[3] + std::to_string(photo_num));
                 lead.update((message->from->username != "" ? message->from->username : std::to_string(message->from->id)), photo_num);
                 photo_ch = false;
                 photo_num = 0;
@@ -55,7 +67,7 @@ int main() {
                         photo_num++;
                 }
                 catch (...) {
-                    bot.getApi().sendMessage(message->chat->id, "Произошла ошибка. Фотографий принято: " + std::to_string(photo_num));
+                    bot.getApi().sendMessage(message->chat->id, ans[4] + std::to_string(photo_num));
                     photo_ch = false;
                     photo_num = 0;
                 }
@@ -64,12 +76,12 @@ int main() {
         else if (lead_ch == 1) {
             try {
                 type = std::stoi(message->text);
-                bot.getApi().sendMessage(message->chat->id, "Выберите количество мест");
+                bot.getApi().sendMessage(message->chat->id, ans[5]);
                 lead_ch = 2;
                 return;
             }
             catch (...) {
-                bot.getApi().sendMessage(message->chat->id, "Произошла ошибка. Повторите команду");
+                bot.getApi().sendMessage(message->chat->id, ans[6]);
                 lead_ch = false;
             }
         }
@@ -78,7 +90,7 @@ int main() {
                 int num = std::stoi(message->text);
                 std::vector<std::pair<std::string, int>> list;
                 lead.top(num, list, type);
-                std::string list_s = "Количество отправленных фотографий: \n";
+                std::string list_s = ans[7];
                 for (auto k : list) {
                     list_s += k.first + ": " + std::to_string(k.second) + "\n";
                 }
@@ -86,7 +98,7 @@ int main() {
                 lead_ch = false;
             }
             catch (...) {
-                bot.getApi().sendMessage(message->chat->id, "Произошла ошибка. Повторите команду");
+                bot.getApi().sendMessage(message->chat->id, ans[6]);
                 lead_ch = false;
             }
         }
@@ -94,7 +106,7 @@ int main() {
             for (auto i : commands)
                 if (i == message->text)
                     return;
-            bot.getApi().sendMessage(message->chat->id, "Неизвестная команда");
+            bot.getApi().sendMessage(message->chat->id, ans[8]);
         }
     });
 
